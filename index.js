@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const Joi = require("joi");
 const multer = require("multer");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -17,13 +16,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.use(express.static("public"));
-app.use("/uploads", express.static("uploads"));
+app.use(express.static("public")); // Serve static files
+app.use("/uploads", express.static("uploads")); // Serve uploaded files
 app.use(express.json());
 app.use(cors());
 
 // MongoDB connection setup
-mongoose.connect("mongodb+srv://sbegay:shryb101@finalproject242.nrojfty.mongodb.net/?retryWrites=true&w=majority&appName=Finalproject242")
+mongoose.connect("mongodb://localhost/comments")
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.log('Error connecting to MongoDB:', err));
 
@@ -31,37 +30,50 @@ mongoose.connect("mongodb+srv://sbegay:shryb101@finalproject242.nrojfty.mongodb.
 const commentSchema = new mongoose.Schema({
     firstName: { type: String },
     lastName: { type: String },
-    date: { type: Date },
     email: { type: String },
-    message: { type: String }
+    message: { type: String },
+    date: { type: Date, default: Date.now } // Adding the date field
 });
 
-const Comment = mongoose.model('Client', commentSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 
-// Handle client booking submissions
-app.post("/submit-contact-form", async (req, res) => {
+// Handle client comment submissions
+app.post("/api/comments", async (req, res) => {
     const { firstName, lastName, email, message } = req.body;
     const newComment = new Comment({
         firstName,
         lastName,
         email,
-        message,
-        date: new Date()
+        message
     });
     try {
         const result = await newComment.save();
         console.log(result);
-        res.status(200).send("Form submitted successfully.");
+        res.status(200).send("Comment submitted successfully.");
     } catch (error) {
-        console.error('Error saving client comments:', error);
+        console.error('Error saving comment:', error);
         res.status(500).send("Internal server error.");
     }
 });
 
+// Get all comments
+app.get("/api/comments", async (req, res) => {
+    try {
+        const comments = await Comment.find();
+        res.json(comments);
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        res.status(500).send("Internal server error.");
+    }
+});
+
+
 // Start the server
 app.listen(3000, () => {
-  console.log("listening");
-  });
+    console.log("Server is running on port 3000");
+});
+
+
   
 
   
