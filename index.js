@@ -38,7 +38,6 @@ const commentSchema = new mongoose.Schema({
     message: String,
     date: { type: Date, default: Date.now }
 });
-//tie together
 const Comment = mongoose.model("Comment", commentSchema);
 
 // Handle client comment submissions
@@ -72,13 +71,12 @@ const validateComment = (comment) => {
     return schema.validate(comment);
 }
 
-module.exports = validateComment;
-
+// Serve frontend files
 app.use(express.static(path.join(__dirname, '../final-project/public')));
 
-
+// Route to serve index.html
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../final-project/public', 'index.html'));
 });
 
 // Get all comments
@@ -91,8 +89,6 @@ app.get("/api/comments", async (req, res) => {
         res.status(500).send("Error fetching comments.");
     }
 });
-
-
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
