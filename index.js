@@ -74,8 +74,8 @@ const validateComment = (comment) => {
 
 module.exports = validateComment;
 
-// Serve static files
 app.use(express.static(path.join(__dirname, '../final-project/public')));
+
 
 // Route to serve review.html
 app.get("/", (req, res) => {
