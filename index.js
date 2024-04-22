@@ -76,8 +76,9 @@ app.use(express.static(path.join(__dirname, '../final-project/public')));
 
 // Route to serve index.html
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../final-project/public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../../sysshrty.github.io/final-project/public', 'index.html'));
 });
+
 
 // Get all comments
 app.get("/api/comments", async (req, res) => {
@@ -90,8 +91,8 @@ app.get("/api/comments", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(3000, () => {
+	console.log("listening...");
 });
 
 
