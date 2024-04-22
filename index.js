@@ -77,9 +77,8 @@ module.exports = validateComment;
 app.use(express.static(path.join(__dirname, '../final-project/public')));
 
 
-// Route to serve review.html
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../final-project/public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Get all comments
