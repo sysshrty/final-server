@@ -95,8 +95,8 @@ app.get("/api/comments", async (req, res) => {
 
 
 
-app.listen(3000, () => {
-	console.log("listening...");
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
 
 
